@@ -1,6 +1,6 @@
 # API Description
 
-KTP-API is based on commands written on filesystem level into `.opinsys-cmd` file in `ktp-jako/` folder on ktp
+KTP-API is based on commands written on filesystem level into `.opinsys/cmd` file in `ktp-jako/` folder on ktp
 
 Following commands are supported
 
@@ -18,7 +18,7 @@ Following commands are supported
 * `shutdown-server`
 
 Commandfile `.opinsys-cmd` may only contain single command. Result is stored in following files.
-* `.opinsys-cmd-stamp`
-* `.opinsys-cmd-result`
-* `.opinsys-stats`
-* `.opinsys-exams`
+* `.opinsys/cmd-stamp`
+* `.opinsys/cmd-result`
+* `.opinsys/stats`
+* `.opinsys/exams`

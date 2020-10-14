@@ -1,14 +1,46 @@
 #!/bin/bash
+# parameters
+# -t Testmode
+# -f Force install 
+
 opinsysVersion='v0.1'
 opinsysInstallDir='/home/digabi/opinsys'
 opinsysInstallVersionFile='$opinsysInstallDir/installversion'
+cmdInstallDir='/media/usb1/.opinsys'
+
+OPTIND=1         # Reset getopts
+
+testmode=0
+forceInstall=0
+
+# parse options
+
+while getopts ":tf" opt; do
+    case "$opt" in
+    t)  testmode=1
+        # Enable testmode => skip testing if server
+        ;;
+    f)  forceInstall=1
+        # Force install, even if already installed
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ "${1:-}" = "--" ] && shift
 
 check_system() {
-    
+    if [ $testmode -eq 1 ] ; then
+        echo "Ohitetaan palvelimen tarkistus..."
+        return 0
+    fi
+
     if [[ -d /home/digabi && -b /dev/sda2 ]] ; then
         local systemversion=`lsblk -n -o LABEL /dev/sda2`
         if [[ $systemversion -eq "SERVER2041X" ]] ; then
             echo "Palvelimen tuettu versio $systemversion tunnistettu"
+            return 0
         else 
             echo "Palvelimen versiota $systemversion ei tueta."
             echo "Asennus keskeytetään."
@@ -22,6 +54,10 @@ check_system() {
 }
 
 check_if_already_installed() {
+    if [ $forceInstall -eq 1 ] ; then
+        echo "Pakotettu uudelleenasennus..."
+        return 0
+    fi
     [[ -f "$opinsysInstallVersionFile" ]] && { echo "Opinsys KTP-API on jo asennettu" ; exit 2 ; }
 }
 
@@ -54,9 +90,14 @@ install_systemd() {
     sudo systemctl start opinsys-ktpapi-watcher.path
 }
 
+make_cmd_structure() {
+    mkdir -p cmdInstallDir
+}
+
 check_system
 check_if_already_installed
 install_opinsys_dir
 install_systemd
+make_cmd_structure
 
 exit 0

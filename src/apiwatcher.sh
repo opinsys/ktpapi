@@ -22,14 +22,20 @@ execute_ping() {
     stamp_execution "ping"
 }
 
-# Uncrypt exam with parameters
+# Uncrypt exam
+# @params $1 filename containing decrypt keystrings
+# on false keys lists false keys on global var $falsekeys
 uncrypt_exam() {
+    local examdecryptfile=$1
+    while read $line; do 
 
+    done < $examdecryptfile
 }
 
 # Executes loadexam
 execute_loadexam() {
     local newexamfile=$1
+    local examdecryptfile=$2
 
 }
 
