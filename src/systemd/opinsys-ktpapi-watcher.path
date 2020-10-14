@@ -1,0 +1,5 @@
+[Path]
+PathModified=/media/usb1/.opinsys/cmd
+
+[Install]
+WantedBy=multi-user.target

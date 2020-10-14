@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Puretaan asennuspakettia"
 
 export TMPDIR=`mktemp -d /tmp/purku.XXXXXX`
@@ -8,9 +10,9 @@ tail -n+$ARCHIVE $0 | tar xzv -C $TMPDIR
 
 CDIR=`pwd`
 cd $TMPDIR
-./installer
+./installer.sh
 
-cd $CDIR
+cd "$CDIR"
 rm -rf $TMPDIR
 
 exit 0
