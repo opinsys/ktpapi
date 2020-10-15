@@ -14,6 +14,7 @@ cp "$target_platform_dir"/libcurl*.deb $tempdir/libcurl.deb
 cp -r ./systemd $tempdir
 
 # Pack target
+mkdir -p $target_dir
 cat "extractlauncher.sh" > $target_file
 echo '___ARCHIVE_BELOW___' >> $target_file
 tar -czv -C $tempdir . >> $target_file
