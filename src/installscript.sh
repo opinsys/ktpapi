@@ -3,10 +3,10 @@
 # -t Testmode
 # -f Force install 
 
-opinsysVersion='v0.1'
-opinsysInstallDir='/home/digabi/opinsys'
-opinsysInstallVersionFile='$opinsysInstallDir/installversion'
-cmdInstallDir='/media/usb1/.opinsys'
+opinsysVersion="v0.1"
+opinsysInstallDir=/home/digabi/opinsys
+opinsysInstallVersionFile="$opinsysInstallDir/installversion"
+cmdInstallDir=/media/usb1/.opinsys
 
 OPTIND=1         # Reset getopts
 
@@ -78,26 +78,42 @@ extract_files() {
     rm -rf $TMPDIR
 }
 
+install_debs() {
+
+    sudo dpkg -i ./libcurl.deb
+    sudo dpkg -i ./curl.deb
+}
+
 install_opinsys_dir() {
     mkdir -p $opinsysInstallDir
     echo $opinsysVersion > $opinsysInstallVersionFile
     cp ./apiwatcher.sh $opinsysInstallDir/apiwatcher.sh
 }
 
-install_systemd() {
-    cp ./systemd/opinsys-* /etc/systemd/system/
+install_systemd_watch() {
+    systemctl is-enabled opinsys-ktpapi-watcher.path 2> /dev/null
+    if [[ $? -eq 0 ]] ; then
+        sudo systemctl stop opinsys-ktpapi-watcher.path
+    fi
+    sudo cp ./systemd/opinsys-* /etc/systemd/system/
     sudo systemctl enable opinsys-ktpapi-watcher.path
+    sudo systemctl daemon-reload
     sudo systemctl start opinsys-ktpapi-watcher.path
 }
 
+install_systemd_timer() {
+    echo "TODO: Install timer"
+}
+
 make_cmd_structure() {
-    mkdir -p cmdInstallDir
+    mkdir -p $cmdInstallDir
 }
 
 check_system
 check_if_already_installed
+install_debs
 install_opinsys_dir
-install_systemd
+install_systemd_watch
 make_cmd_structure
 
 exit 0
