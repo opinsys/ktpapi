@@ -1,5 +1,6 @@
 #!/bin/bash
 cd "$(dirname "$0")"
+
 target_dir=../dist
 target_file="$target_dir"/installer.sh
 

@@ -2,6 +2,7 @@
 # parameters
 # -t Testmode
 # -f Force install 
+# -u Update only Opinsys ApiWatcher script
 
 opinsysVersion="v0.1"
 opinsysInstallDir=/home/digabi/opinsys
@@ -12,16 +13,21 @@ OPTIND=1         # Reset getopts
 
 testmode=0
 forceInstall=0
-
+updateOnly=0
 # parse options
 
-while getopts ":tf" opt; do
+while getopts ":tfu" opt; do
     case "$opt" in
     t)  testmode=1
+        echo "Ohitetaan palvelimen yhteensopivuuden tarkistus"
         # Enable testmode => skip testing if server
         ;;
     f)  forceInstall=1
+        echo "Pakotettu päälleasennus"
         # Force install, even if already installed
+        ;;
+    u)  updateOnly=1
+        echo "Päivitetään vain API-skripti"
         ;;
     esac
 done
@@ -110,10 +116,10 @@ make_cmd_structure() {
 }
 
 check_system
-check_if_already_installed
-install_debs
+[[ $updateOnly ]] || check_if_already_installed
+[[ $updateOnly ]] || install_debs
 install_opinsys_dir
-install_systemd_watch
+[[ $updateOnly ]] || install_systemd_watch
 make_cmd_structure
 
 exit 0
