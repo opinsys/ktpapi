@@ -1,4 +1,6 @@
 #!/bin/bash
+# KTP-API-asennuspaketti
+# (c) Opinsys Oy, 2020
 
 echo "Puretaan asennuspakettia"
 
