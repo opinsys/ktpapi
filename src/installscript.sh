@@ -3,6 +3,7 @@
 # -t Testmode
 # -f Force install 
 # -u Update only Opinsys ApiWatcher script
+# -m Modify answer download
 
 opinsysVersion="v0.1"
 opinsysInstallDir=/home/digabi/opinsys
@@ -14,9 +15,10 @@ OPTIND=1         # Reset getopts
 testmode=0
 forceInstall=0
 updateOnly=0
+modifyAnswerDownload=0
 # parse options
 
-while getopts ":tfu" opt; do
+while getopts ":tfum" opt; do
     case "$opt" in
     t)  testmode=1
         echo "Ohitetaan palvelimen yhteensopivuuden tarkistus"
@@ -28,6 +30,9 @@ while getopts ":tfu" opt; do
         ;;
     u)  updateOnly=1
         echo "Päivitetään vain API-skripti"
+        ;;
+    m) modifyAnswerDownload=1
+        echo "Asennetaan vastausten talteenoton muokkaus"
         ;;
     esac
 done
@@ -113,6 +118,10 @@ install_systemd_timer() {
 
 make_cmd_structure() {
     mkdir -p $cmdInstallDir
+}
+
+install_storeanswer_mod() {
+    ./opinsys-download-progress-installer.sh
 }
 
 check_system

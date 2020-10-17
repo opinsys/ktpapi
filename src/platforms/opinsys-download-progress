@@ -1,0 +1,46 @@
+
+#
+# THIS IS ALTERED PART
+#
+
+opinsys_target_file=/home/digabi/opinsys/target_file
+if [[ -f $opinsys_target_file ]] ; then
+    # enter non-interactive mode
+    nonInteractive=0
+    $opinsys_target_dir="/media/usb1"
+    $opinsys_target_filename=`cat $opinsys_target_file`
+    ZIPTARGET="${opinsys_target_dir}/${opinsys_target_filename}"
+    if [ -e "${ZIPTARGET" ] ; then
+        # File already exists - make a backup
+        SUFFIX=0
+        RENFILENAME=$(echo ${opinsys_target_filename} | sed "s/\.\([^.][^.]*\)\$/-old${SUFFIX}.\1/")
+        RENTARGET="${opinsys_target_dir}/${opinsys_target_filename}"
+        # Find a filename that does not exist
+        while [ -e "${RENTARGET}" ]
+        do
+            # Add a suffix to the file
+            SUFFIX=$((SUFFIX + 1))
+            RENFILENAME=$(echo ${opinsys_target_filename} | sed "s/\.\([^.][^.]*\)\$/-old${SUFFIX}.\1/")
+            RENTARGET="${opinsys_target_dir}/${opinsys_target_filename}"
+        done
+        # Move original file to backup
+        mv "${ZIPTARGET}" "${RENTARGET}"
+    fi
+    # Remove triggerin opinsys_target_file
+    rm -rf "${opinsys_target_file}"
+    # Do the download progress
+    cp "${ZIPPATH}" "${ZIPTARGET}"
+    cmp "${ZIPPATH}" "${ZIPTARGET}"
+    EXITCODE=$?
+    if [ ${EXITCODE} -eq 0 ]; then
+        exit 0
+    else
+        exit 1
+    fi
+fi
+#
+# ALTERED PART ENDS
+#
+
+
+
