@@ -13,7 +13,7 @@ case $target_platform in
         ;;
     "SERVER2041X")
         target_platform_dir=./platform/$target_platform
-        target_platform_deb_dir=./platform/$target_platform
+        target_platform_deb_dir=./platform/SERVER2040X
         target_file="$target_dir"/installer-${target_platform,,}
         ;;
     *)
@@ -30,8 +30,15 @@ cp apiwatcher.sh $tempdir/apiwatcher.sh
 cp "$target_platform_deb_dir"/curl*.deb $tempdir/curl.deb
 cp "$target_platform_deb_dir"/libcurl*.deb $tempdir/libcurl.deb
 cp -r ./systemd $tempdir
-cp "$target_platform_dir"/opinsys-download-progress $tempdir/opinsys-download-progress
-cp "$target_platform_dir"/opinsys-download-progress-installer.sh $tempdir/opinsys-download-progress-installer.sh
+if [[ -e "$target_platform_dir"/opinsys-download-progress && 
+    -e "$target_platform_dir"/opinsys-download-progress-installer.sh ]]; then
+    # Experimental download modscript found
+    echo "Download Modscript found for $target_platform. Building it with installation."
+    cp "$target_platform_dir"/opinsys-download-progress $tempdir/opinsys-download-progress
+    cp "$target_platform_dir"/opinsys-download-progress-installer.sh $tempdir/opinsys-download-progress-installer.sh
+else
+    echo "No Modscript found for $target_platform."
+fi
 
 # Pack target
 mkdir -p $target_dir

@@ -7,15 +7,16 @@ downloadProgressTarget="/usr/local/bin/digabi-download-progress"
 downloadProgressOriginal="${downloadProgressTarget}-original"
 scriptFile="./opinsys-download-progress"
 # Following numbers are row count where mod is entered
-headCount=6
-tailCount=-6
+headCount="7"
+tailCount="+8"
 
 if [[ ! -f "${scriptFile}" ]]; then 
     echo "Vastausten talteenoton mahdollistavaa muokkausta ei tehty - asennustiedostoa ei löytynyt."
+    exit 1
 fi
 
 # following is the expected digabi-download-progress size from server
-expectedTargetSize=345
+expectedTargetSize=2111
 targetSize=`stat -c %s "${downloadProgressTarget}"`
 
 # Make sure that target equals e

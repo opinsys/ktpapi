@@ -1,7 +1,20 @@
 # Manuaalitestaus
 
-1. Asennuskriptin luonti `src/make.sh`
+1. Asennuskriptin luonti `make`
     - Asennusskripti tehty
 1. Ajetaan asennusskripti `dist/install.sh`
     - Asennusskripti keskeytyy siihen, että palvelinta ei tunnisteta
-1. 
+1. Ajetaan asennusskripti palvelimella `bash -x install`
+    - Asennuspurkautuu ja käynnistyy
+    - Systemd-palvelu toimii (`systemctl status opinsys-ktpapi-watcher.path`)
+    - Curl-asentunut (`curl`)
+    - `~/opinsys/apiwatcher.sh` on olemassa
+    - `/media/usb1/.opinsys` hakemisto on olemassa
+1. Ajetaan asennusskripti uudelleen
+    - Asennus keskeytyy koska palvelut jo asentuneita
+1. Pingataan skriptiä: `echo "ping" > /media/usb1/.opinsys/cmd` palvelimella
+    - muodostuu tiedosto `.opinsys/stamp`, jossa on aikaleima
+    - muodostuu tiedosto `.opinsys/output`, jossa on "ping"
+1. Ajetaan tuntematon komento `echo "pingg" > /media/usb1/.opinsys/cmd` 
+    - muodostuu tiedosto `.opinsys/stamp`, jossa on aikaleima
+    - muodostuu tiedosto `.opinsys/output`, jossa on "{error: true, msg:"Unrecognized command", cmd:"pingg"}"
