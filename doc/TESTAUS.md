@@ -18,3 +18,8 @@
 1. Ajetaan tuntematon komento `echo "pingg" > /media/usb1/.opinsys/cmd` 
     - muodostuu tiedosto `.opinsys/stamp`, jossa on aikaleima
     - muodostuu tiedosto `.opinsys/output`, jossa on "{error: true, msg:"Unrecognized command", cmd:"pingg"}"
+1. Ladataan oma.abitti.fi:stä kaksi koetta, joista toinen kooltaan suuri, yli 10 Mt. Paketoidaan .zip-tiedostoon. Nimetään `paketti.zip`. Tallennetaan purkukoodit `koodit.txt` tiedostoon erillisille riveille, siten että tiedostossa on vain yksi avainkoodi. Ajetaan isäntäkoneessa `echo "load-exam paketti.zip koodit.txt" > ~/ktp-jako/.opinsys/cmd`.
+    - muodostuu tiedosto `.opinsys/output`, jossa on "{error: true, exam-load:"Unrecognized command",passwords:[], cmd:""}"
+1. Ladataan oma.abitti.fi:stä kaksi koetta, joista toinen kooltaan suuri, yli 10 Mt. Paketoidaan .zip-tiedostoon. Nimetään `paketti.zip`. Tallennetaan purkukoodit `koodit.txt` tiedostoon erillisille riveille, siten että jälkimmäinen avainkoodi on virheellinen. Rivinvaihto suoritettu Windows-tyyliin `\n\r`. Viimeisen rivin jälkeen ei rivinvaihtoa. Ajetaan isäntäkoneessa `echo "load-exam paketti.zip koodit.txt" > ~/ktp-jako/.opinsys/cmd`.
+1. Ladataan oma.abitti.fi:stä kaksi koetta, joista toinen kooltaan suuri, yli 10 Mt. Paketoidaan .zip-tiedostoon. Nimetään `paketti.zip`. Tallennetaan purkukoodit `koodit.txt` tiedostoon erillisille riveille. Rivinvaihto suoritettu Windows-tyyliin `\n\r`. Viimeisen rivin jälkeen ei rivinvaihtoa. Ajetaan isäntäkoneessa `echo "load-exam paketti.zip koodit.txt" > ~/ktp-jako/.opinsys/cmd`.
+    - 

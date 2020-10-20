@@ -1,5 +1,5 @@
 [Unit]
-Description=Opinsys KTP-API Watcher service
+Description=Opinsys KTP-API Cmd handler service
 After=network.target
 
 [Service]
