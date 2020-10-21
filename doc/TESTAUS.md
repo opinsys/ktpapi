@@ -23,3 +23,6 @@
 1. Ladataan oma.abitti.fi:stä kaksi koetta, joista toinen kooltaan suuri, yli 10 Mt. Paketoidaan .zip-tiedostoon. Nimetään `paketti.zip`. Tallennetaan purkukoodit `koodit.txt` tiedostoon erillisille riveille, siten että jälkimmäinen avainkoodi on virheellinen. Rivinvaihto suoritettu Windows-tyyliin `\n\r`. Viimeisen rivin jälkeen ei rivinvaihtoa. Ajetaan isäntäkoneessa `echo "load-exam paketti.zip koodit.txt" > ~/ktp-jako/.opinsys/cmd`.
 1. Ladataan oma.abitti.fi:stä kaksi koetta, joista toinen kooltaan suuri, yli 10 Mt. Paketoidaan .zip-tiedostoon. Nimetään `paketti.zip`. Tallennetaan purkukoodit `koodit.txt` tiedostoon erillisille riveille. Rivinvaihto suoritettu Windows-tyyliin `\n\r`. Viimeisen rivin jälkeen ei rivinvaihtoa. Ajetaan isäntäkoneessa `echo "load-exam paketti.zip koodit.txt" > ~/ktp-jako/.opinsys/cmd`.
     - 
+1. Tuhotaan `.opinsys/*` ja ajetaan `ping` komento
+    - muodostuu tiedosto `.opinsys/stamp`, jossa on aikaleima
+    - muodostuu tiedosto `.opinsys/output`, jossa on "ping"

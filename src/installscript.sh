@@ -107,9 +107,10 @@ install_systemd_watch() {
         sudo systemctl stop opinsys-ktpapi-watcher.path
     fi
     sudo cp ./systemd/opinsys-* /etc/systemd/system/
-    sudo systemctl enable opinsys-ktpapi-watcher.path
     sudo systemctl daemon-reload
+    sudo systemctl enable opinsys-ktpapi-watcher.{service,path}
     sudo systemctl start opinsys-ktpapi-watcher.path
+    echo "KTP-API-palvelu asennettu"
 }
 
 install_systemd_timer() {
