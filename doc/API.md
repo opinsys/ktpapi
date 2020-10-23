@@ -10,7 +10,7 @@ Following commands are supported
 * `change-keycode` (unimplemented)
 * `get-status`
 * `get-keycode` (unimplemented)
-* `get-loaded-exam`
+* `get-exam`
 * `get-opinsys-info`
 * `get-server-version` (unimplemented)
 * `ping`
