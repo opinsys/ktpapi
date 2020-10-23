@@ -1,7 +1,7 @@
 #!/bin/bash
 # parameters
 # -t Testmode
-# -f Force install 
+# -f Force install
 # -u Update only Opinsys ApiWatcher script
 # -m Modify answer download
 
@@ -126,10 +126,10 @@ install_storeanswer_mod() {
 }
 
 check_system
-[[ $updateOnly ]] || check_if_already_installed
-[[ $updateOnly ]] || install_debs
+[[ $updateOnly -eq 1 ]] || check_if_already_installed
+[[ $updateOnly -eq 1 ]] || install_debs
 install_opinsys_dir
-[[ $updateOnly ]] || install_systemd_watch
+[[ $updateOnly -eq 1 ]] || install_systemd_watch
 make_cmd_structure
 
 exit 0
