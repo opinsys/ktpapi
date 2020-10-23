@@ -1,15 +1,14 @@
+server_versions := SERVER2003K SERVER2041X
+
 dist: dist/install.sh
 	@echo "Installer build ready"
 
-dist/install.sh: SERVER2041X SERVER2003K
+dist/install.sh: ${server_versions}
 
-SERVER2041X:
+${server_versions}:
 	@mkdir -p dist
-	src/build_installer.sh SERVER2041X
+	(cd src && ./build_installer.sh $@)
 
-SERVER2003K:
-	@mkdir -p dist
-	src/build_installer.sh SERVER2003K
-
+.PHONY: clean
 clean:
 	rm -rf dist
