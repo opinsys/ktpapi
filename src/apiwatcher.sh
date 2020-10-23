@@ -108,7 +108,7 @@ uncrypt_exam() {
     fi
     local gathered_output=""
     IFS=
-    while IFS= read -r line || [ -n "$line" ]; do 
+    while IFS= read -r line || [ -n "$line" ]; do
         # read line by line and continue with the last line even if no \n
         # take away \r characters at the end of lines
         line=${line/%$'\r'/}
@@ -218,6 +218,6 @@ case $cmd_cmd in
         shutdown now
         ;;
     *)
-        output_error "Unrecognized command"    
+        output_error "Unrecognized command"
         ;;
-    esac    
+    esac
