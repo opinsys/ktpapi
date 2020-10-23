@@ -1,5 +1,7 @@
 server_versions := SERVER2003K SERVER2041X
 
+all: dist
+
 dist: dist/install.sh
 	@echo "Installer build ready"
 
