@@ -74,7 +74,7 @@ stamp_execution() {
 
 write_output() {
     local val=
-    for param in "$@" do
+    for param in "$@"; do
         val+=",${param}"
     done
 cat <<-'EOF'>${output_file}
