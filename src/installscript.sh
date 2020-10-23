@@ -99,17 +99,18 @@ install_opinsys_dir() {
     mkdir -p $opinsysInstallDir
     echo $opinsysVersion > $opinsysInstallVersionFile
     cp ./apiwatcher.sh $opinsysInstallDir/apiwatcher.sh
+    cp ./timertrigger.sh $opinsysInstallDir/timertrigger.sh
 }
 
 install_systemd_watch() {
-    systemctl is-enabled opinsys-ktpapi-watcher.path 2> /dev/null
+    systemctl is-enabled opinsys-ktpapi-timer.timer 2> /dev/null
     if [[ $? -eq 0 ]] ; then
-        sudo systemctl stop opinsys-ktpapi-watcher.path
+        sudo systemctl stop opinsys-ktpapi-timer.timer
     fi
     sudo cp ./systemd/opinsys-* /etc/systemd/system/
     sudo systemctl daemon-reload
-    sudo systemctl enable opinsys-ktpapi-watcher.{service,path}
-    sudo systemctl start opinsys-ktpapi-watcher.path
+    sudo systemctl enable opinsys-ktpapi-timer.{service,timer}
+    sudo systemctl start opinsys-ktpapi-timer.timer
     echo "KTP-API-palvelu asennettu"
 }
 

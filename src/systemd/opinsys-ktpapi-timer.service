@@ -1,0 +1,7 @@
+[Unit]
+Description=Opinsys KTP-API Cmd handler timer trigger service
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/digabi/opinsys/timertrigger.sh

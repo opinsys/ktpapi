@@ -30,6 +30,7 @@ tempdir=`mktemp -d ktpapiinstaller.XXX`
 # Gather delivarable files
 cp installscript.sh $tempdir/installer.sh
 cp apiwatcher.sh $tempdir/apiwatcher.sh
+cp timertrigger.sh $tempdir/timertrigger.sh
 cp "$target_platform_deb_dir"/curl*.deb $tempdir/curl.deb
 cp "$target_platform_deb_dir"/libcurl*.deb $tempdir/libcurl.deb
 cp -r ./systemd $tempdir
