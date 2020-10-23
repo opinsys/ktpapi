@@ -77,8 +77,8 @@ write_output() {
     for param in "$@"; do
         val+=",${param}"
     done
-cat <<-'EOF'>${output_file}
-    {error:false,${val:1},cmd:${cmd_cmd}}
+     cat <<EOF > ${output_file}
+{error:false,${val:1},cmd:${cmd_cmd}}
 EOF
 }
 
