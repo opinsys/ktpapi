@@ -102,20 +102,30 @@ install_opinsys_dir() {
     cp ./timertrigger.sh $opinsysInstallDir/timertrigger.sh
 }
 
-install_systemd_watch() {
+uninstall_systemd_watch() {
+    # do not install watch service
+    systemctl is-enabled opinsys-ktpapi-watcher.path 2> /dev/null
+    if [[ $? -eq 0 ]] ; then
+        sudo systemctl stop opinsys-ktpapi-watcher.path
+        sudo systemctl stop opinsys-ktpapi-watcher.service
+        sudo systemctl disable opinsys-ktpapi-watcher.path
+        sudo systemctl disable opinsys-ktpapi-watcher.service
+        sudo rm /etc/systemd/system/opinsys-ktpapi-watcher.path
+        sudo rm /etc/systemd/system/opinsys-ktpapi-watcher.service
+        sudo systemctl daemon-reload
+    fi
+}
+
+install_systemd_timer() {
     systemctl is-enabled opinsys-ktpapi-timer.timer 2> /dev/null
     if [[ $? -eq 0 ]] ; then
         sudo systemctl stop opinsys-ktpapi-timer.timer
     fi
-    sudo cp ./systemd/opinsys-* /etc/systemd/system/
+    sudo cp ./systemd/opinsys-ktpapi-timer* /etc/systemd/system/
     sudo systemctl daemon-reload
     sudo systemctl enable opinsys-ktpapi-timer.{service,timer}
     sudo systemctl start opinsys-ktpapi-timer.timer
     echo "KTP-API-palvelu asennettu"
-}
-
-install_systemd_timer() {
-    echo "TODO: Install timer"
 }
 
 make_cmd_structure() {
@@ -130,7 +140,8 @@ check_system
 [[ $updateOnly -eq 1 ]] || check_if_already_installed
 [[ $updateOnly -eq 1 ]] || install_debs
 install_opinsys_dir
-[[ $updateOnly -eq 1 ]] || install_systemd_watch
+[[ $updateOnly -eq 1 ]] || install_systemd_timer
+[[ $updateOnly -eq 1 ]] || uninstall_systemd_watch
 make_cmd_structure
 
 exit 0

@@ -67,9 +67,8 @@ init_session() {
 }
 
 stamp_execution() {
-    local timestamp=$(date +%s)
-    echo "$timestamp: $1" > "$opinsysdir/stamp"
-    debug_output "Stamp $timestamp: $1"
+    # disable stamp
+    echo "" > /dev/null
 }
 
 write_output() {
