@@ -1,6 +1,6 @@
 #!/bin/bash
 # parameters
-# -t Testmode
+# -t [TARGET_PLATFORM] Testmode
 # -f Force install
 # -u Update only Opinsys ApiWatcher script
 # -m Modify answer download
@@ -18,9 +18,10 @@ updateOnly=0
 modifyAnswerDownload=0
 # parse options
 
-while getopts ":tfum" opt; do
+while getopts ":t:fum" opt; do
     case "$opt" in
     t)  testmode=1
+        target_platform=$OPTARG
         echo "Ohitetaan palvelimen yhteensopivuuden tarkistus"
         # Enable testmode => skip testing if server
         ;;
@@ -49,20 +50,36 @@ check_system() {
 
     if [[ -d /home/digabi && -b /dev/sda2 ]] ; then
         local systemversion=`lsblk -n -o LABEL /dev/sda2`
-        if [[ $systemversion -eq "SERVER2041X" ]] ; then
-            echo "Palvelimen tuettu versio $systemversion tunnistettu"
-            return 0
-        else 
-            echo "Palvelimen versiota $systemversion ei tueta."
-            echo "Asennus keskeytetään."
-            exit 1
-        fi   
+
+        case $systemversion in
+            SERVER2003K)
+                target_platform=$systemversion
+                target_platform_dir=./$target_platform
+                target_platform_base=.
+                target_platform_deb_dir=./$target_platform
+                ;;
+            SERVER2041X)
+                target_platform=$systemversion
+                target_platform_dir=./$target_platform
+                target_platform_base=.
+                target_platform_deb_dir=./$target_platform
+                ;;
+            *)
+                echo "Palvelimen versiota $systemversion ei tueta."
+                echo "Asennus keskeytetään."
+                exit 1
+                ;;
+            esac
+        echo "Palvelimen tuettu versio $systemversion tunnistettu"
+        return 0;
     else
         echo "Palvelinta ei tunnistettu."
         echo "Asennus keskeytetään."
         exit 1
     fi
 }
+
+
 
 check_if_already_installed() {
     if [ $forceInstall -eq 1 ] ; then
@@ -91,8 +108,8 @@ extract_files() {
 
 install_debs() {
 
-    sudo dpkg -i ./libcurl.deb
-    sudo dpkg -i ./curl.deb
+    sudo dpkg -i "$target_platform_deb_dir"/libcurl*.deb
+    sudo dpkg -i "$target_platform_deb_dir"/curl*.deb
 }
 
 install_opinsys_dir() {
@@ -133,7 +150,7 @@ make_cmd_structure() {
 }
 
 install_storeanswer_mod() {
-    ./opinsys-download-progress-installer.sh
+    "$target_platform_dir"/opinsys-download-progress-installer.sh
 }
 
 check_system
