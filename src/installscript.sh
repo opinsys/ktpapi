@@ -44,7 +44,7 @@ shift $((OPTIND-1))
 
 check_system() {
     if [ $testmode -eq 1 ] ; then
-        echo "Ohitetaan palvelimen tarkistus..."
+        echo "Ohitetaan palvelimen tarkistus... Asennetaan kuten $target_platform"
         return 0
     fi
 
@@ -153,10 +153,18 @@ install_storeanswer_mod() {
     "$target_platform_dir"/opinsys-download-progress-installer.sh
 }
 
+subinstallers() {
+    [[ -z $modifyAnswerDownload ]] && install_storeanswer_mod
+    for installerscript in "$target_platform_dir"/installer-*.sh; do
+        $installerscript
+    done
+}
+
 check_system
 [[ $updateOnly -eq 1 ]] || check_if_already_installed
 [[ $updateOnly -eq 1 ]] || install_debs
 install_opinsys_dir
+subinstallers
 [[ $updateOnly -eq 1 ]] || install_systemd_timer
 [[ $updateOnly -eq 1 ]] || uninstall_systemd_watch
 make_cmd_structure
