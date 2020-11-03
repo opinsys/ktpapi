@@ -107,9 +107,13 @@ extract_files() {
 }
 
 install_debs() {
+    for libcurlDeb in "$target_platform_deb_dir"/libcurl*.deb "$target_platform_deb_dir"/curl*.deb; do
+        echo "Asennetaan $libcurlDeb"
+        sudo dpkg -i "$libcurlDeb"
+    done
+#    sudo dpkg -i "$target_platform_deb_dir"/libcurl*.deb
+#    sudo dpkg -i "$target_platform_deb_dir"/curl*.deb
 
-    sudo dpkg -i "$target_platform_deb_dir"/libcurl*.deb
-    sudo dpkg -i "$target_platform_deb_dir"/curl*.deb
 }
 
 install_opinsys_dir() {
