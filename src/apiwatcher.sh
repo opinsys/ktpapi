@@ -16,7 +16,7 @@ debug_output() {
 
 output_error() {
     debug_output "ERROR $1, cmd: \"$cmd_cmd\""
-    echo "{error:true, msg:\"$1\", cmd:\"$cmd_cmd\"}" > $output_file
+    echo "{\"error\":true, \"msg\":\"$1\", \"cmd\":\"$cmd_cmd\"}" > $output_file
 }
 
 debug_output "Event triggered"
@@ -74,10 +74,12 @@ stamp_execution() {
 write_output() {
     local val=
     for param in "$@"; do
-        val+=",${param}"
+        # Add quotation marks 
+        local param1=`echo "$param" | perl -pe 's/^([a-z0-9\-_]+)\:/"\"".$1."\":"/e'`
+        val+=",$param1"
     done
      cat <<EOF > ${output_file}
-{error:false,${val:1},cmd:${cmd_cmd}}
+{"error":false,${val:1},"cmd":"${cmd_cmd}"}
 EOF
 }
 
