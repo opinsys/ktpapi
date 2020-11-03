@@ -7,6 +7,7 @@ cmd_file="/media/usb1/.opinsys/cmd"
 stamp_file="/media/usb1/.opinsys/stampf"
 lockfile_file="/media/usb1/.opinsys/cmd-lock"
 handler_script="/home/digabi/opinsys/apiwatcher.sh"
+output_lockfile="/media/usb1/.opinsys/.cmd-in-progress"
 # Max runtime script is allowed prestige is seconds, if 0, concurrence not detected/minded
 max_runtime=600
 
@@ -36,8 +37,8 @@ if [[ ${lastchange} != ${lastchangeHandled} ]]; then
     debug_output "Opinsys - Running script"
 
     "${handler_script}"
-
-    # release lock
+    # release locks
+    rm -rf "${output_lockfile}"
     rm -rf "${lockfile_file}"
     debug_output "Opinsys - Lock released"
 
