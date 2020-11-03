@@ -155,6 +155,7 @@ install_storeanswer_mod() {
 
 subinstallers() {
     [[ -z $modifyAnswerDownload ]] && install_storeanswer_mod
+    shopt -s nullglob 
     for installerscript in "$target_platform_dir"/installer-*.sh; do
         $installerscript
     done
