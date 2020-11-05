@@ -5,7 +5,7 @@ set -u
 
 cmd_file="/media/usb1/.opinsys/cmd"
 stamp_file="/media/usb1/.opinsys/stampf"
-lockfile_file="/media/usb1/.opinsys/cmd-lock"
+lockfile_file="/media/usb1/.opinsys/.cmd-lock"
 handler_script="/home/digabi/opinsys/apiwatcher.sh"
 output_lockfile="/media/usb1/.opinsys/.cmd-in-progress"
 # Max runtime script is allowed prestige is seconds, if 0, concurrence not detected/minded
