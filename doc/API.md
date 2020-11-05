@@ -17,14 +17,19 @@ Following commands are supported
 * `store-exam-results [filename]` (unimplemented)
 * `shutdown-server`
 
-Commandfile `.opinsys/cmd` may only contain single command. Result is stored in following files.
+Commandfile `.opinsys/cmd` may only contain single command. Command file is checked in 5 sec intervals (interval length is not quaranteed).
+Result is stored in following files.
 * `.opinsys/cmd-stamp`
 * `.opinsys/cmd-result`
 * `.opinsys/stats` Current stats
 * `.opinsys/exams` Currently loaded exams
 * `.opinsys/debug-output` Verbose output for debugging purposes
 
+Lockfiles
+*   `.opinsys/.cmd-in-progress`file is deleted immediatly after execution is finished, undependent of whether cmd has finished with error or not. This allows external API user to create file and wait for execution start and exection to finish before checking the results by checking whether file exist.
+*   `.opinsys.cmd-lock` internal lock file contains current commands execution start timestamp. Following command execution does not start before this file is deleted or contents timestamp older than 10 minutes.
 - All commands produce stamp-file
+
 
 ### Load-exam
 Loads exam on the server, but does not start it
