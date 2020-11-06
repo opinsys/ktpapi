@@ -53,16 +53,18 @@ check_system() {
 
         case $systemversion in
             SERVER2003K)
+                # Debian Strech-based DigabiOS
                 target_platform=$systemversion
                 target_platform_dir=./$target_platform
                 target_platform_base=.
                 target_platform_deb_dir=./$target_platform
                 ;;
-            SERVER2041X)
+            SERVER2041X,SERVER2045G)
+                # Debian Buster-based DigabiOS
                 target_platform=$systemversion
-                target_platform_dir=./$target_platform
+                target_platform_dir=./SERVER2041X
                 target_platform_base=.
-                target_platform_deb_dir=./$target_platform
+                target_platform_deb_dir=./SERVER2041X
                 ;;
             *)
                 echo "Palvelimen versiota $systemversion ei tueta."
