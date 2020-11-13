@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 target_dir=../dist
 target_file="$target_dir"/installer
 
-tempdir=`mktemp -d ktpapiinstaller.XXX`
+tempdir=$(mktemp -d ktpapiinstaller.XXX)
 
 # Gather delivarable files
 cp installscript.sh $tempdir/installer.sh

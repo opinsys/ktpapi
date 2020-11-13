@@ -5,6 +5,8 @@
 # -u Update only Opinsys ApiWatcher script
 # -m Modify answer download
 
+set -eu
+
 opinsysVersion="v0.1"
 opinsysInstallDir=/home/digabi/opinsys
 opinsysInstallVersionFile="$opinsysInstallDir/installversion"
@@ -21,7 +23,7 @@ modifyAnswerDownload=0
 while getopts ":t:fum" opt; do
     case "$opt" in
     t)  testmode=1
-        target_platform=$OPTARG
+        target_platform="$OPTARG"
         echo "Ohitetaan palvelimen yhteensopivuuden tarkistus"
         # Enable testmode => skip testing if server
         ;;
@@ -49,31 +51,15 @@ check_system() {
     fi
 
     if [[ -d /home/digabi && -b /dev/sda2 ]] ; then
-        local systemversion=`lsblk -n -o LABEL /dev/sda2`
+        local systemversion=$(lsblk -n -o LABEL /dev/sda2)
+        target_platform="$systemversion"
 
-        case $systemversion in
-            SERVER2003K)
-                # Debian Strech-based DigabiOS
-                target_platform=$systemversion
-                target_platform_dir=./$target_platform
-                target_platform_base=.
-                target_platform_deb_dir=./$target_platform
-                ;;
-            SERVER2041X|SERVER2045G)
-                # Debian Buster-based DigabiOS
-                target_platform=$systemversion
-                target_platform_dir=./SERVER2041X
-                target_platform_base=.
-                target_platform_deb_dir=./SERVER2041X
-                ;;
-            *)
-                echo "Palvelimen versiota $systemversion ei tueta."
-                echo "Asennus keskeytetään."
-                exit 1
-                ;;
-        esac
+        if [ ! -d "$target_platform" ]; then
+            echo "Palvelimen versiota $systemversion ei tueta."
+            echo "Asennus keskeytetään."
+            exit 1
+        fi
         echo "Palvelimen tuettu versio $systemversion tunnistettu"
-        return 0;
     else
         echo "Palvelinta ei tunnistettu."
         echo "Asennus keskeytetään."
@@ -105,9 +91,9 @@ extract_files() {
 }
 
 install_debs() {
-    for libcurlDeb in "$target_platform_deb_dir"/libcurl*.deb "$target_platform_deb_dir"/curl*.deb; do
+    for libcurlDeb in "$target_platform"/libcurl*.deb "$target_platform"/curl*.deb; do
         echo "Asennetaan $libcurlDeb"
-        sudo dpkg -i "$libcurlDeb"
+        sudo dpkg -i "$libcurlDeb" > /dev/null
     done
 }
 
@@ -149,13 +135,13 @@ make_cmd_structure() {
 }
 
 install_storeanswer_mod() {
-    "$target_platform_dir"/opinsys-download-progress-installer.sh
+    "$target_platform"/opinsys-download-progress-installer.sh
 }
 
 subinstallers() {
     [[ -z $modifyAnswerDownload ]] && install_storeanswer_mod
     shopt -s nullglob
-    for installerscript in "$target_platform_dir"/installer-*.sh; do
+    for installerscript in "$target_platform"/installer-*.sh; do
         $installerscript
     done
 }
