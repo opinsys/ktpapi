@@ -71,7 +71,7 @@ check_system() {
                 echo "Asennus keskeytetään."
                 exit 1
                 ;;
-            esac
+        esac
         echo "Palvelimen tuettu versio $systemversion tunnistettu"
         return 0;
     else
@@ -94,18 +94,14 @@ check_if_already_installed() {
 extract_files() {
     echo "Extracting files"
 
-    export TMPDIR=`mktemp -d /tmp/selfextract.XXXXXX`
+    tmpdir=$(mktemp -d /tmp/selfextract.XXXXXX)
 
-    ARCHIVE=`awk '/^___ARCHIVE_BELOW___/ {print NR + 1; exit 0; }' $0`
+    ARCHIVE=$(awk '/^___ARCHIVE_BELOW___/ { print NR + 1; exit 0 }' "$0")
 
-    tail -n+$ARCHIVE $0 | tar xzv -C $TMPDIR
+    tail -n+$ARCHIVE $0 | tar -C "$tmpdir" -xz
 
-    CDIR=`pwd`
-    cd $TMPDIR
-    ./installer
-
-    cd $CDIR
-    rm -rf $TMPDIR
+    (cd "$tmpdir" && ./installer)
+    rm -rf "$tmpdir"
 }
 
 install_debs() {
@@ -113,9 +109,6 @@ install_debs() {
         echo "Asennetaan $libcurlDeb"
         sudo dpkg -i "$libcurlDeb"
     done
-#    sudo dpkg -i "$target_platform_deb_dir"/libcurl*.deb
-#    sudo dpkg -i "$target_platform_deb_dir"/curl*.deb
-
 }
 
 install_opinsys_dir() {
@@ -161,7 +154,7 @@ install_storeanswer_mod() {
 
 subinstallers() {
     [[ -z $modifyAnswerDownload ]] && install_storeanswer_mod
-    shopt -s nullglob 
+    shopt -s nullglob
     for installerscript in "$target_platform_dir"/installer-*.sh; do
         $installerscript
     done

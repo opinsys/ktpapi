@@ -2,19 +2,21 @@
 # KTP-API-asennuspaketti
 # (c) Opinsys Oy, 2020
 
-echo "Puretaan asennuspakettia"
+set -eu
 
-export TMPDIR=`mktemp -d /tmp/purku.XXXXXX`
+echo 'Puretaan asennuspakettia'
 
-ARCHIVE=`awk '/^___ARCHIVE_BELOW___/ {print NR + 1; exit 0; }' $0`
+tmpdir=$(mktemp -d /tmp/purku.XXXXXX)
 
-tail -n+$ARCHIVE $0 | tar xzv -C $TMPDIR
+ARCHIVE=$(awk '/^___ARCHIVE_BELOW___/ { print NR + 1; exit 0 }' "$0")
 
-CDIR=`pwd`
-cd $TMPDIR
-./installer.sh $1
+tail -n+$ARCHIVE "$0" | tar -C "$tmpdir" -xz
 
-cd "$CDIR"
-rm -rf $TMPDIR
+(
+  cd "$tmpdir"
+  ./installer.sh "$@"
+)
+
+rm -rf "$tmpdir"
 
 exit 0

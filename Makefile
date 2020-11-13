@@ -1,7 +1,6 @@
 all: dist
 
 dist: clean dist/installer
-	@echo "Installer build ready"
 
 dist/installer:
 	@mkdir -p dist

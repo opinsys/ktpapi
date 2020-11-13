@@ -20,7 +20,7 @@ cp -r ./systemd $tempdir
 mkdir -p $target_dir
 cat "extractlauncher.sh" > $target_file
 echo '___ARCHIVE_BELOW___' >> $target_file
-tar -czv -C $tempdir . >> $target_file
+tar -cz -C $tempdir . >> $target_file
 chmod a+x $target_file
 
 # Cleanup
