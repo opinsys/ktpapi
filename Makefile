@@ -1,5 +1,5 @@
 latest_commit_id = $(shell git rev-parse HEAD)
-archive_filename = "opinsys-ktpapi-$(latest_commit_id)"
+archive_filename = "opinsys-ktpapi-$(latest_commit_id).tar.gz"
 
 remote_server = private-archive.opinsys.fi
 remote_server_path = /srv/private-archive/.distfiles/abitti-ktpapi/
@@ -18,8 +18,7 @@ dist/ktpapu-asennin:
 
 ${archive_filename}:
 	git archive --format=tar.gz --prefix=opinsys-ktpapi/ \
-		-o opinsys-ktpapi-${latest_commit_id}.tar.gz \
-                ${latest_commit_id}
+		-o $(archive_filename) ${latest_commit_id}
 
 .PHONY: update-remote-archive
 update-remote-archive: ${archive_filename}
