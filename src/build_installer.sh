@@ -5,7 +5,7 @@ set -eu
 cd "$(dirname "$0")"
 
 target_dir=../dist
-target_file="$target_dir"/installer
+target_file="$target_dir"/ktpapu-asennin
 
 tempdir=$(mktemp -d ktpapiinstaller.XXX)
 
