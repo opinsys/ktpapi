@@ -26,4 +26,4 @@ update-remote-archive: ${archive_filename}
 
 .PHONY: clean
 clean:
-	rm -rf dist
+	rm -rf dist opinsys-ktpapi-*.tar.gz
