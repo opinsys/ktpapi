@@ -1,10 +1,29 @@
+latest_commit_id = $(shell git rev-parse HEAD)
+archive_filename = "opinsys-ktpapi-$(latest_commit_id)"
+
+remote_server = private-archive.opinsys.fi
+remote_server_path = /srv/private-archive/.distfiles/abitti-ktpapi/
+
 all: dist
 
-dist: clean dist/installer
+.PHONY: archive
+archive: ${archive_filename}
 
-dist/installer:
+dist: dist/ktpapu-asennin
+
+.PHONY: dist/ktpapu-asennin
+dist/ktpapu-asennin:
 	@mkdir -p dist
 	(cd src && ./build_installer.sh)
+
+${archive_filename}:
+	git archive --format=tar.gz --prefix=opinsys-ktpapi/ \
+		-o opinsys-ktpapi-${latest_commit_id}.tar.gz \
+                ${latest_commit_id}
+
+.PHONY: update-remote-archive
+update-remote-archive: ${archive_filename}
+	scp -p $< ${remote_server}:${remote_server_path}
 
 .PHONY: clean
 clean:
