@@ -1,14 +1,17 @@
 #!/bin/bash
-mediadir="/media/usb1"
-opinsysdir="$mediadir/.opinsys"
-cmd_file="$opinsysdir/cmd"
-output_file="$opinsysdir/output"
-output_exams_file="$opinsysdir/exams"
-output_stats_file="$opinsysdir/stats"
-output_keycode_file="$opinsysdir/keycode"
-cookie_file="$opinsysdir/cookie.txt"
-debug_file="$opinsysdir/debug-output"
-script_version_file="/home/digabi/opinsys/installversion"
+
+mediadir='/media/usb1'
+
+opinsysdir="${mediadir}/.opinsys"
+cmd_file="${opinsysdir}/cmd"
+output_file="${opinsysdir}/output"
+output_exams_file="${opinsysdir}/exams"
+output_stats_file="${opinsysdir}/stats"
+output_keycode_file="${opinsysdir}/keycode"
+cookie_file="${opinsysdir}/.cookie.txt"
+debug_file="${opinsysdir}/debug-output"
+
+script_version_file='/home/digabi/opinsys/installversion'
 
 debug_output() {
 	echo "$@" >> "$debug_file"
@@ -164,7 +167,7 @@ execute_startnewexam() {
 }
 
 get_script_info() {
-    script_version=`cat "${script_version_file}"`
+    script_version=$(cat "$script_version_file")
     write_output "script-version:${script_version}"
     stamp_execution "script-version"
 }
