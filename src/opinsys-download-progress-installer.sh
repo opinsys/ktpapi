@@ -10,7 +10,7 @@ scriptFile="./opinsys-download-progress"
 headCount="7"
 tailCount="+8"
 
-if [[ ! -f "${scriptFile}" ]]; then 
+if [[ ! -f "${scriptFile}" ]]; then
     echo "Vastausten talteenoton mahdollistavaa muokkausta ei tehty - asennustiedostoa ei löytynyt."
     exit 1
 fi
