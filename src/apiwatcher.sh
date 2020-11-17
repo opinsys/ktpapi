@@ -18,18 +18,19 @@ debug_output() {
 }
 
 output_error() {
-    debug_output "ERROR $1, cmd: \"$cmd_cmd\""
-    echo "{\"error\":true, \"msg\":\"$1\", \"cmd\":\"$cmd_cmd\"}" > $output_file
+  debug_output "ERROR $1, cmd: \"$cmd_cmd\""
+  printf '{ "error": true, "msg": "%s", "cmd": "%s" }'"\n" "$1" "$cmd_cmd" \
+    > "$output_file"
 }
 
-debug_output "Event triggered"
+debug_output 'Event triggered'
 
 # Define function to parse cmd-file
 # outputs cmd as $cmd_cmd, $cmd_arg1, $cmd_arg2
 read_command() {
     if [[ ! -f "$cmd_file" ]]; then
         # cmd_file puuttuu, joten => keskeytetään suoritus
-        debug_output "Cmd file not found"
+        debug_output 'Cmd file not found'
         cmd_cmd=""
         cmd_arg1=""
         cmd_arg2=""
@@ -77,7 +78,7 @@ stamp_execution() {
 write_output() {
     local val=
     for param in "$@"; do
-        # Add quotation marks 
+        # Add quotation marks
         local param1=`echo "$param" | perl -pe 's/^([a-z0-9\-_]+)\:/"\"".$1."\":"/e'`
         val+=",$param1"
     done
@@ -87,9 +88,8 @@ EOF
 }
 
 execute_ping() {
-    debug_output "Ping.."
-    echo "ping" > $output_file
-    stamp_execution "ping"
+    debug_output 'Ping...'
+    write_output 'ping:"ok"'
 }
 
 uncrypt_exam_singlekey() {
@@ -107,7 +107,7 @@ uncrypt_exam() {
     debug_output "Decrypt file \"$examdecryptfile\""
     if [[ ! -f "$examdecryptfile" ]]; then
         # Examfile not found
-        output_error "Decryptfile not found"
+        output_error 'Decryptfile not found'
         exit 1
     fi
     local gathered_output=""
@@ -128,7 +128,7 @@ loadexam() {
     debug_output "Examfile \"$examfile\""
     if [[ ! -f "$examfile" ]]; then
         # Examfile not found
-        output_error "Examfile not found"
+        output_error 'Examfile not found'
         exit 1
     fi
     output_exam=`curl -F "examZip=@$examfile" 'http://localhost/load-exam' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: */*' -H 'Accept-Language: fi-FI,fi;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Referer: http://localhost/' -H 'X-Requested-With: XMLHttpRequest' -b $cookie_file -c $cookie_file`
@@ -168,7 +168,7 @@ execute_startnewexam() {
 
 get_script_info() {
     script_version=$(cat "$script_version_file")
-    write_output "script-version:${script_version}"
+    write_output "$(printf 'script-version:"%s"' "$script_version")"
     stamp_execution "script-version"
 }
 
@@ -195,33 +195,34 @@ execute_getexam() {
 read_command
 
 case $cmd_cmd in
-    "ping")
+    ping)
         execute_ping
         ;;
-    "get-opinsys-info")
+    get-opinsys-info)
         get_script_info
         ;;
-    "load-exam")
+    load-exam)
         execute_loadexam $cmd_arg1 $cmd_arg2
         ;;
-    "start-loaded-exam")
+    start-loaded-exam)
         execute_startexam
         ;;
-    "start-new-exam")
+    start-new-exam)
         execute_startnewexam $cmd_arg1 $cmd_arg2
         ;;
-    "get-status")
+    get-status)
         execute_getstats
         ;;
-    "get-exam")
+    get-exam)
         execute_getexam
         ;;
-    "shutdown-server")
-        debug_output "Shutdown server"
-        stamp_execution "shutdown-server"
+    shutdown-server)
+        debug_output 'Shutdown server'
+        stamp_execution 'shutdown-server'
         shutdown now
         ;;
     *)
-        output_error "Unrecognized command"
+        output_error 'Unrecognized command'
+        exit 1
         ;;
     esac
