@@ -5,7 +5,7 @@
 
 set -eu
 
-opinsysVersion='v0.1'
+opinsysVersion='0.1'
 opinsysInstallDir=/home/digabi/opinsys
 opinsysInstallVersionFile="${opinsysInstallDir}/installversion"
 cmdInstallDir=/media/usb1/.opinsys
