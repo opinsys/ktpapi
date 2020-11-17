@@ -70,11 +70,6 @@ init_session() {
     curl -b $cookie_file -c $cookie_file 'http://localhost'
 }
 
-stamp_execution() {
-    # disable stamp
-    echo "" > /dev/null
-}
-
 write_output() {
     local val=
     for param in "$@"; do
@@ -155,7 +150,6 @@ execute_loadexam() {
 
 execute_startexam() {
     startexam
-    stamp_execution "start"
     write_output "start-exam:$output_start"
 }
 
@@ -163,13 +157,11 @@ execute_startnewexam() {
     execute_loadexam $1 $2
     startexam
     write_output "load-exam:$output_exam" "decrypt:$output_decrypt" "start-exam:$output_start"
-    stamp_execution "start-new-exam"
 }
 
 get_script_info() {
     script_version=$(cat "$script_version_file")
     write_output "$(printf 'script-version:"%s"' "$script_version")"
-    stamp_execution "script-version"
 }
 
 get_status() {
@@ -218,7 +210,6 @@ case $cmd_cmd in
         ;;
     shutdown-server)
         debug_output 'Shutdown server'
-        stamp_execution 'shutdown-server'
         shutdown now
         ;;
     *)
