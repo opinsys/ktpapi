@@ -198,7 +198,7 @@ case $cmd_cmd in
     ping)
         execute_ping
         ;;
-    get-opinsys-info)
+    get-script-info)
         get_script_info
         ;;
     load-exam)

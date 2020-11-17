@@ -11,7 +11,7 @@ Following commands are supported
 * `get-status`
 * `get-keycode` (unimplemented)
 * `get-exam`
-* `get-opinsys-info`
+* `get-script-info`
 * `get-server-version` (unimplemented)
 * `ping`
 * `store-exam-results [filename]` (unimplemented)
