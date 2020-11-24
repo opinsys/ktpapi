@@ -89,20 +89,6 @@ install_opinsys_dir() {
     cp ./timertrigger.sh "${opinsysInstallDir}/timertrigger.sh"
 }
 
-uninstall_systemd_watch() {
-    # do not install watch service
-    systemctl is-enabled opinsys-ktpapi-watcher.path 2> /dev/null
-    if [[ $? -eq 0 ]] ; then
-        sudo systemctl stop opinsys-ktpapi-watcher.path
-        sudo systemctl stop opinsys-ktpapi-watcher.service
-        sudo systemctl disable opinsys-ktpapi-watcher.path
-        sudo systemctl disable opinsys-ktpapi-watcher.service
-        sudo rm /etc/systemd/system/opinsys-ktpapi-watcher.path
-        sudo rm /etc/systemd/system/opinsys-ktpapi-watcher.service
-        sudo systemctl daemon-reload
-    fi
-}
-
 install_systemd_timer() {
     if ! systemctl is-enabled opinsys-ktpapi-timer.timer > /dev/null; then
         sudo systemctl stop opinsys-ktpapi-timer.timer
@@ -143,7 +129,6 @@ install_debs
 install_opinsys_dir
 subinstallers
 install_systemd_timer
-uninstall_systemd_watch
 make_cmd_structure
 
 exit 0
