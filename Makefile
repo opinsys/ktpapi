@@ -1,4 +1,4 @@
-latest_commit_id = $(shell git rev-parse HEAD)
+latest_commit_id = $(shell git rev-parse HEAD 2>/dev/null || echo NOGIT)
 archive_filename = "opinsys-ktpapi-$(latest_commit_id).tar.gz"
 
 remote_server = private-archive.opinsys.fi
