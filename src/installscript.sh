@@ -90,7 +90,7 @@ install_opinsys_dir() {
 }
 
 install_systemd_timer() {
-    if ! systemctl is-enabled opinsys-ktpapi-timer.timer > /dev/null; then
+    if systemctl is-enabled opinsys-ktpapi-timer.timer > /dev/null 2>&1; then
         sudo systemctl stop opinsys-ktpapi-timer.timer
     fi
     sudo cp ./systemd/opinsys-ktpapi-timer* /etc/systemd/system/
