@@ -14,8 +14,8 @@ Following commands are supported
 * `get-script-info`
 * `get-server-version` (unimplemented)
 * `ping`
-* `store-exam-results [filename]` (unimplemented)
 * `shutdown-server`
+* `store-exam-results`
 
 Commandfile `.opinsys/cmd` may only contain single command. Command file is checked in 5 sec intervals (interval length is not quaranteed).
 Result is stored in following files.

@@ -8,6 +8,7 @@ output_file="${opinsysdir}/output"
 output_exams_file="${opinsysdir}/exams"
 output_stats_file="${opinsysdir}/stats"
 output_keycode_file="${opinsysdir}/keycode"
+output_answers_file="${opinsysdir}/answers.zip"
 cookie_file="${opinsysdir}/.cookie.txt"
 debug_file="${opinsysdir}/debug-output"
 
@@ -184,6 +185,19 @@ execute_getexam() {
     write_output "exams:${output_exams}"
 }
 
+execute_store_exam_results() {
+    local answers_url tmpfile
+    tmpfile="${output_answers_file}.tmp"
+    answers_url='http://localhost/answers-zip/answers.zip'
+    if ! curl --fail --silent -o "$tmpfile" "$answers_url"; then
+        rm -f "$output_answers_file" "$tmpfile"
+        output_error 'Error in getting exam answers'
+    else
+        mv "$tmpfile" "$output_answers_file"
+        write_output 'status:"ok"'
+    fi
+}
+
 read_command
 
 case $cmd_cmd in
@@ -211,6 +225,9 @@ case $cmd_cmd in
     shutdown-server)
         debug_output 'Shutdown server'
         shutdown now
+        ;;
+    store-exam-results)
+        execute_store_exam_results
         ;;
     *)
         output_error 'Unrecognized command'
