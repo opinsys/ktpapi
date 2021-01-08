@@ -16,6 +16,7 @@ Following commands are supported
 * `ping`
 * `shutdown-server`
 * `store-exam-results`
+* `update`
 
 Commandfile `.opinsys/cmd` may only contain single command. Command file is checked in 5 sec intervals (interval length is not quaranteed).
 Result is stored in following files.
@@ -98,6 +99,9 @@ Returns the version of KTP-API installed to the server
 Shutdowns the virtual machine server without timeout
 * Input `shutdown-server`
 * Output: none
+
+### Update
+Updates itself by running "kpuapu-asennin" script, if it exists.
 
 ## Output files
 

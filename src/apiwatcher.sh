@@ -1,8 +1,9 @@
 #!/bin/bash
 
 mediadir='/media/usb1'
-
+installer_path="${mediadir}/ktpapu-asennin"
 opinsysdir="${mediadir}/.opinsys"
+
 cmd_file="${opinsysdir}/cmd"
 output_file="${opinsysdir}/output"
 output_exams_file="${opinsysdir}/exams"
@@ -198,6 +199,19 @@ execute_store_exam_results() {
     fi
 }
 
+execute_update() {
+  if [ -x "$installer_path" ]; then
+    if ! installer_output=$("$installer_path" 2>&1); then
+      output_error "Error in running installer: $installer_output"
+      return 1
+    fi
+    write_output 'status:"ok"'
+    return 0
+  fi
+
+  output_error 'No installer found'
+}
+
 read_command
 
 case $cmd_cmd in
@@ -229,8 +243,11 @@ case $cmd_cmd in
     store-exam-results)
         execute_store_exam_results
         ;;
+    update)
+        execute_update
+        ;;
     *)
         output_error 'Unrecognized command'
         exit 1
         ;;
-    esac
+esac
