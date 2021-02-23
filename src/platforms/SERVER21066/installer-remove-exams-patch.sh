@@ -18,4 +18,7 @@ if [ ! -e /var/lib/ktpjs/server/routes/import-exam-bl.js.orig ]; then
    } else {
      const mebs = await extractMultiExamPackage(absolutePackagePath, examTempPath)
 EOF
+
+  # restart ktpjs
+  sudo pkill -U koetila -f '/bin/bash /usr/local/bin/ktpjs' 2>/dev/null || true
 fi
