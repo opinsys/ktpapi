@@ -55,6 +55,20 @@ check_system() {
     fi
 }
 
+mark_server_version() {
+  local serverVersionFile systemversion
+
+  serverVersionFile="${cmdInstallDir}/.server_version"
+  if ! systemversion="$(lsblk -n -o LABEL /dev/sda2)" \
+    || [ -z "$systemversion" ]; then
+      echo "Palvelimen version selvitys ei onnistunut."
+      exit 1
+  fi
+
+  printf "%s\n" "$systemversion" > "${serverVersionFile}.tmp"
+  mv "${serverVersionFile}.tmp" "$serverVersionFile"
+}
+
 report_currently_installed_version() {
     opinsysCurrentVersion=$(cat "$opinsysInstallVersionFile" 2>/dev/null) || true
     if [[ -n "$opinsysCurrentVersion" ]]; then
@@ -132,5 +146,6 @@ install_opinsys_dir
 subinstallers
 install_systemd_timer
 make_cmd_structure
+mark_server_version
 
 exit 0
