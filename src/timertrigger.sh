@@ -9,7 +9,7 @@ lockfile_file='/media/usb1/.opinsys/.cmd-lock'
 output_lockfile='/media/usb1/.opinsys/.cmd-in-progress'
 stamp_file='/media/usb1/.opinsys/.cmd-timestamp'
 
-handler_script='/home/digabi/opinsys/apiwatcher.sh'
+handler_script='/opt/ktpapu/apiwatcher.sh'
 
 echo 'Opinsys - Timer triggered'
 
