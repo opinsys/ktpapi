@@ -4,4 +4,4 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/digabi/opinsys/apiwatcher.sh
+ExecStart=/opt/ktpapu/apiwatcher.sh
