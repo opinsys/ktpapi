@@ -93,6 +93,7 @@ install_debs() {
     for deb in "$target_platform"/libcurl4_*.deb \
                "$target_platform"/curl_*.deb     \
                "$target_platform"/patch_*.deb; do
+        if [ ! -e "$deb" ]; then continue; fi
         echo "Asennetaan ${deb}."
         sudo dpkg -i "$deb" > /dev/null
     done
