@@ -1,4 +1,4 @@
-.debhelper
+*.debhelper
 *.substvars
 abitti-ktpapi
 debhelper-build-stamp
