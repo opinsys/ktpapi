@@ -19,8 +19,8 @@ installdirs:
 
 install: installdirs
 	$(INSTALL_PROGRAM) -t $(DESTDIR)/opt/ktpapu/ \
-		src/apiwatcher.sh \
-		src/timertrigger.sh
+		src/apiwatcher \
+		src/timertrigger
 	$(INSTALL_DATA) -t $(DESTDIR)/lib/systemd/system/ \
 		src/systemd/opinsys-ktpapi-timer.service \
 		src/systemd/opinsys-ktpapi-timer.timer \

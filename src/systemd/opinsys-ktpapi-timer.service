@@ -4,4 +4,4 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/opt/ktpapu/timertrigger.sh
+ExecStart=/opt/ktpapu/timertrigger
