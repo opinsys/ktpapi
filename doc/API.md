@@ -9,7 +9,6 @@ Following commands are supported
 * `start-loaded-exam`
 * `change-keycode` (unimplemented)
 * `get-status`
-* `get-keycode` (unimplemented)
 * `get-exam`
 * `get-script-info`
 * `get-server-version` (unimplemented)
