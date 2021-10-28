@@ -13,7 +13,7 @@ output_answers_file="${opinsysdir}/answers.zip"
 cookie_file="${opinsysdir}/.cookie.txt"
 debug_file="${opinsysdir}/debug-output"
 
-script_version_file='/home/digabi/opinsys/installversion'
+script_version_file='/opt/ktpapu/version'
 
 debug_output() {
 	echo "$@" >> "$debug_file"
