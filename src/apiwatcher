@@ -69,7 +69,7 @@ read_command() {
 
 init_session() {
     debug_output "Session init Curl"
-    curl -b $cookie_file -c $cookie_file 'http://localhost'
+    curl -s -b $cookie_file -c $cookie_file 'http://localhost'
 }
 
 write_output() {
@@ -92,7 +92,7 @@ execute_ping() {
 uncrypt_exam_singlekey() {
     local decryptkey=$1
     debug_output "Trying to decrypt with \"$1\""
-    output_decrypt=`curl 'http://localhost/decrypt-exam' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Accept-Language: fi-FI,fi;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Referer: http://localhost/' -H 'Content-Type: application/json; charset=UTF-8' -H 'X-Requested-With: XMLHttpRequest' -H 'Connection: keep-alive' -H 'Cookie: supoLang=fin' --data "{\"decryptPassword\":\"$decryptkey\"}"`
+    output_decrypt=`curl -s 'http://localhost/decrypt-exam' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Accept-Language: fi-FI,fi;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Referer: http://localhost/' -H 'Content-Type: application/json; charset=UTF-8' -H 'X-Requested-With: XMLHttpRequest' -H 'Connection: keep-alive' -H 'Cookie: supoLang=fin' --data "{\"decryptPassword\":\"$decryptkey\"}"`
     debug_output "DecryptOutput $output_decrypt"
 }
 
@@ -128,13 +128,13 @@ loadexam() {
         output_error 'Examfile not found'
         exit 1
     fi
-    output_exam=`curl -F "examZip=@$examfile" 'http://localhost/load-exam' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: */*' -H 'Accept-Language: fi-FI,fi;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Referer: http://localhost/' -H 'X-Requested-With: XMLHttpRequest' -b $cookie_file -c $cookie_file`
+    output_exam=`curl -s -F "examZip=@$examfile" 'http://localhost/load-exam' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: */*' -H 'Accept-Language: fi-FI,fi;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Referer: http://localhost/' -H 'X-Requested-With: XMLHttpRequest' -b $cookie_file -c $cookie_file`
     debug_output "CurlOutput $output"
 }
 
 startexam() {
     debug_output "Starting exam"
-    output_start=`curl 'http://localhost/start-exam' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Accept-Language: fi-FI,fi;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Referer: http://localhost/' -H 'Content-Type: application/json; charset=UTF-8' -H 'X-Requested-With: XMLHttpRequest' -H 'Connection: keep-alive' -H 'Cookie: supoLang=fin' --data '' -b $cookie_file -c $cookie_file`
+    output_start=`curl -s 'http://localhost/start-exam' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Accept-Language: fi-FI,fi;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Referer: http://localhost/' -H 'Content-Type: application/json; charset=UTF-8' -H 'X-Requested-With: XMLHttpRequest' -H 'Connection: keep-alive' -H 'Cookie: supoLang=fin' --data '' -b $cookie_file -c $cookie_file`
     debug_output "Starting output $output_start"
 }
 
@@ -167,11 +167,11 @@ get_script_info() {
 }
 
 get_status() {
-    output_stats=`curl http://localhost/stats`
+    output_stats=`curl -s http://localhost/stats`
 }
 
 get_loadedexams() {
-    output_exams=`curl http://localhost/exams`
+    output_exams=`curl -s http://localhost/exams`
 }
 
 execute_getstats() {
@@ -190,7 +190,7 @@ execute_store_exam_results() {
     local answers_url tmpfile
     tmpfile="${output_answers_file}.tmp"
     answers_url='http://localhost/answers-zip/answers.zip'
-    if ! curl --fail --silent -o "$tmpfile" "$answers_url"; then
+    if ! curl -s --fail -o "$tmpfile" "$answers_url"; then
         rm -f "$output_answers_file" "$tmpfile"
         output_error 'Error in getting exam answers'
     else
