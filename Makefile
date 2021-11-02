@@ -24,14 +24,11 @@ install: installdirs
 	$(INSTALL_DATA) VERSION $(DESTDIR)/opt/ktpapu/version
 	$(INSTALL_DATA) -t $(DESTDIR)/lib/systemd/system/ \
 		src/systemd/opinsys-ktpapi-timer.service \
-		src/systemd/opinsys-ktpapi-timer.timer \
-		src/systemd/opinsys-ktpapi-watcher.service
+		src/systemd/opinsys-ktpapi-timer.timer
 	ln -fs -t $(DESTDIR)$(sysconfdir)/systemd/system/multi-user.target.wants/ \
 		/lib/systemd/system/opinsys-ktpapi-timer.service
 	ln -fs -t $(DESTDIR)$(sysconfdir)/systemd/system/multi-user.target.wants/ \
 		/lib/systemd/system/opinsys-ktpapi-timer.timer
-	ln -fs -t $(DESTDIR)$(sysconfdir)/systemd/system/multi-user.target.wants/ \
-		/lib/systemd/system/opinsys-ktpapi-watcher.service
 
 .PHONY: archive
 archive: ${archive_filename}
