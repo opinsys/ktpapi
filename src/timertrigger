@@ -9,8 +9,21 @@ cmd_file="${opinsysdir}/cmd"
 lockfile_file="${opinsysdir}/.cmd-lock"
 output_lockfile="${opinsysdir}/.cmd-in-progress"
 stamp_file="${opinsysdir}/.cmd-timestamp"
+serverversion_file="${opinsysdir}/.server_version"
 
 handler_script='/opt/ktpapu/apiwatcher'
+
+mark_server_version() {
+  local systemversion
+
+  if ! systemversion="$(lsblk -n -o LABEL /dev/sda2)" \
+    || [ -z "$systemversion" ]; then
+      exit 1
+  fi
+
+  printf "%s\n" "$systemversion" > "${serverversion_file}.tmp"
+  mv "${serverversion_file}.tmp" "$serverversion_file"
+}
 
 echo 'Opinsys - Timer triggered'
 
@@ -24,6 +37,8 @@ mkdir -p "$opinsysdir"
     echo 'Could not get an execution lock'
     exit 1
   fi
+
+  mark_server_version
 
   lastchange=$(stat -c %Y "$cmd_file" 2> /dev/null || echo 0)
   lastchangeHandled=$(cat "$stamp_file" 2> /dev/null || echo 0)
