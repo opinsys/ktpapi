@@ -16,6 +16,8 @@ echo 'Opinsys - Timer triggered'
 
 exitstatus=0
 
+mkdir -p "$opinsysdir"
+
 (
   # this to prevent concurrent events happening from timer
   if ! flock -nx 9; then
