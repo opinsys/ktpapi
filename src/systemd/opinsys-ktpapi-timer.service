@@ -4,4 +4,4 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/digabi/opinsys/timertrigger.sh
+ExecStart=/opt/ktpapu/timertrigger

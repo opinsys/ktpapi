@@ -1,7 +1,0 @@
-[Unit]
-Description=Opinsys KTP-API Cmd handler service
-After=network.target
-
-[Service]
-Type=oneshot
-ExecStart=/home/digabi/opinsys/apiwatcher.sh

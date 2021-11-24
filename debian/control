@@ -1,0 +1,18 @@
+Source: abitti-ktpapi
+Section: misc
+Priority: extra
+Maintainer: Puavo Org <dev@opinsys.fi>
+Standards-Version: 3.9.6
+Homepage: https://github.com/opinsys/ktpapi
+
+Package: abitti-ktpapi
+Architecture: amd64
+Depends: curl
+Description: Helper tool for Abitti exam server automation
+ This package can be installed into Abitti examination server.
+ It sets up necessary services for controlling the exam server
+ through a filesystem interface, meaning that its actions can be
+ automated from outside.  This is useful in case the examination
+ server is a virtual server that shares a part of its filesystem
+ with its host.
+ .

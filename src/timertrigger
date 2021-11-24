@@ -1,0 +1,67 @@
+#!/bin/sh
+
+# Watches whether commandfile has changed
+
+set -eu
+
+opinsysdir='/media/usb1/.opinsys'
+cmd_file="${opinsysdir}/cmd"
+lockfile_file="${opinsysdir}/.cmd-lock"
+output_lockfile="${opinsysdir}/.cmd-in-progress"
+stamp_file="${opinsysdir}/.cmd-timestamp"
+serverversion_file="${opinsysdir}/.server_version"
+
+handler_script='/opt/ktpapu/apiwatcher'
+
+get_server_version() {
+  local lsblk_output systemversion
+
+  lsblk_output=$(lsblk -n -o MOUNTPOINT,LABEL) || return 1
+  systemversion=$(printf "%s" "$lsblk_output" \
+                    | awk '$1 == "/usr/lib/live/mount/medium" { print $2 }') \
+    || return 1
+
+  [ -n "$systemversion" ] || return 1
+
+  printf "%s" "$systemversion"
+}
+
+mark_server_version() {
+  local systemversion
+
+  if ! systemversion="$(get_server_version)"; then
+    exit 1
+  fi
+
+  printf "%s\n" "$systemversion" > "${serverversion_file}.tmp"
+  mv "${serverversion_file}.tmp" "$serverversion_file"
+}
+
+exitstatus=0
+
+mkdir -p "$opinsysdir"
+
+(
+  # this to prevent concurrent events happening from timer
+  if ! flock -nx 9; then
+    echo 'Could not get an execution lock'
+    exit 1
+  fi
+
+  mark_server_version
+
+  lastchange=$(stat -c %Y "$cmd_file" 2> /dev/null || echo 0)
+  lastchangeHandled=$(cat "$stamp_file" 2> /dev/null || echo 0)
+
+  if [ "$lastchange" != "$lastchangeHandled" ]; then
+    printf "%s\n" "$lastchange" > "$stamp_file"
+    echo 'Opinsys - Change detected, running script'
+
+    "$handler_script" || exitstatus=$?
+
+    echo 'Opinsys - script done, releasing output lockfile'
+    rm -f "$output_lockfile"
+  fi
+) 9> "$lockfile_file"
+
+exit $exitstatus
