@@ -7,7 +7,7 @@ Following commands are supported
 * `load-exam [filename] [keycodefile]`
 * `start-new-exam [filename] [keycodefile]`
 * `start-loaded-exam`
-* `change-keycode` (unimplemented)
+* `change-keycode`
 * `get-status`
 * `get-exam`
 * `get-script-info`
@@ -69,6 +69,15 @@ Starts exam already loaded to the server
 ```json
 {"error":false,"start-exam":{"startTime":"2020-11-03T12:16:53.248Z"},"cmd":"start-new-exam"}
 ```
+
+### Change-keycode
+
+* Input `change-keycode`
+* Output: JSON `{"error":true/false, "change-keycode":{...}, "cmd":"change-keycode"}`
+```json
+{"error":false, "change-keycode":{"keyCode":"1234","confirmationCode":"xx"}, "cmd":"change-keycode"}
+```
+
 ### Get-Status
 Returns status of the surveillance view on the server containing current keycode and students.
 * Input `get-status`

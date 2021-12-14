@@ -208,6 +208,22 @@ execute_startnewexam() {
                  "start-exam:${output_start}"
 }
 
+change_keycode() {
+    local keycode_json
+    if keycode_json=$(
+        curl -s \
+             -H 'Accept: application/json, text/javascript, /; q=0.01' \
+             --compressed \
+             -H 'Content-Type: application/json; charset=UTF-8' \
+             -H 'X-Requested-With: XMLHttpRequest' \
+             --data-raw '' \
+             'http://localhost/single-security-code'); then
+        write_output "change-keycode:${keycode_json}"
+    else
+        output_error 'Error in changing exam keycode'
+    fi
+}
+
 get_script_info() {
     script_version="$(cat "$script_version_file")"
     write_output "$(printf 'script-version:"%s"' "$script_version")"
@@ -253,6 +269,9 @@ read_command
 case "$cmd_cmd" in
     ping)
         execute_ping
+        ;;
+    change-keycode)
+        change_keycode
         ;;
     get-script-info)
         get_script_info
