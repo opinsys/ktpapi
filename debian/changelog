@@ -1,3 +1,10 @@
+abitti-ktpapi (0.1.3) stable; urgency=medium
+
+  * Remove background image customization.
+  * Run services only under VirtualBox.
+
+ -- Puavo Org <dev@opinsys.fi>  Fri, 07 Jan 2022 08:10:34 +0200
+
 abitti-ktpapi (0.1.2) stable; urgency=medium
 
   * Add "change-keycode".
