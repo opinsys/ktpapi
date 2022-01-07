@@ -1,5 +1,6 @@
 [Unit]
 Description=Opinsys KTP-API Cmd handler watch timer
+ConditionVirtualization=oracle
 
 [Timer]
 OnBootSec=1min

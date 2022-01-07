@@ -1,6 +1,7 @@
 [Unit]
 Description=Opinsys KTP-API Cmd handler timer trigger service
 After=network.target
+ConditionVirtualization=oracle
 
 [Service]
 Type=oneshot
