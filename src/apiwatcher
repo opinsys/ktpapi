@@ -249,6 +249,11 @@ execute_getexam() {
     write_output "exams:${output_exams}"
 }
 
+execute_getpassphrase() {
+    passphrase=$(curl -s http://localhost/passphrase)
+    write_output "get-passphrase:$passphrase"
+}
+
 execute_store_exam_results() {
     local answers_url tmpfile
 
@@ -290,6 +295,9 @@ case "$cmd_cmd" in
         ;;
     get-exam)
         execute_getexam
+        ;;
+    get-passphrase)
+        execute_getpassphrase
         ;;
     shutdown-server)
         debug_output 'Shutdown server'

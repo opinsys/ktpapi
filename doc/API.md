@@ -12,6 +12,7 @@ Following commands are supported
 * `get-exam`
 * `get-script-info`
 * `get-server-version` (unimplemented)
+* `get-passphrase`
 * `ping`
 * `shutdown-server`
 * `store-exam-results`
@@ -87,6 +88,12 @@ Returns status of the surveillance view on the server containing current keycode
 ```json
 {"students":[{"authorized":true,"studentUuid":"e319bf74-ae46-4f26-9589-0345c6c13f19","firstNames":"Testi","lastName":"Oppilas","studentBd":"020202","examTitle":"Exam name","pingError":false,"examStarted":"2020-11-05T19:48:10.343Z","examFinished":null,"updateTime":null,"lastAccessedMedia":null,"nsaRunSuccessCount":0,"nsaRunAdjacentFailCount":0,"studentStatus":"ok","casRestricted":false,"casStatus":"allowed"}],"refreshedCount":"1","hasStarted":true,"startTime":"2020-11-03T12:16:53.248Z","answerPaperCount":"1","backupDiskFreePercentage":100,"rootDiskFreePercentage":97,"replicationStatus":"NEVER_CONNECTED","audioInSomeExam":false,"fileIntegrityCompromised":false,"singleSecurityCode":{"keyCode":"1234","confirmationCode":"xx"}}
 ```
+
+### Get-Passphrase
+Returns the monitoring and backup server passphrase.
+* Input `get-passphrase`
+* Output:
+    - `output`: JSON `{"error":true/false, "get-passphrase":{...}, "cmd":"get-passphrase"}`
 
 ### Get-Loaded-Exam
 Returns currently loaded exam status and their start time
