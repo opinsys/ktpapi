@@ -254,6 +254,14 @@ execute_getpassphrase() {
     write_output "get-passphrase:$passphrase"
 }
 
+execute_resetexam() {
+    if ! curl -X POST --fail http://localhost/reset-exam; then
+        output_error 'Error in resetting exams'
+    else
+        write_output 'status:"ok"'
+    fi
+}
+
 execute_store_exam_results() {
     local answers_url tmpfile
 
@@ -292,6 +300,9 @@ case "$cmd_cmd" in
         ;;
     ping)
         execute_ping
+        ;;
+    reset-exam)
+        execute_resetexam
         ;;
     shutdown-server)
         debug_output 'Shutdown server'

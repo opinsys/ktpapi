@@ -14,6 +14,7 @@ Following commands are supported
 * `get-server-version` (unimplemented)
 * `get-passphrase`
 * `ping`
+* `reset-exam`
 * `shutdown-server`
 * `store-exam-results`
 * `update`
@@ -109,6 +110,12 @@ Returns currently loaded exam status and their start time
 Returns the version of KTP-API installed to the server
 * Input `get-loaded-exam`
 * Output: raw version number of KTP-API
+
+### Reset-exam
+Stops the examination session, removing all exams.
+* Input `reset-exam`
+* Output:
+    - `output`: JSON `{"error":true/false, "status":"ok", "cmd":"reset-exam"}`
 
 ### Shutdown-server
 Shutdowns the virtual machine server without timeout
