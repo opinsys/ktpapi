@@ -272,9 +272,6 @@ execute_store_exam_results() {
 read_command
 
 case "$cmd_cmd" in
-    ping)
-        execute_ping
-        ;;
     change-keycode)
         change_keycode
         ;;
@@ -284,24 +281,27 @@ case "$cmd_cmd" in
     load-exam)
         execute_loadexam "$cmd_arg1" "$cmd_arg2"
         ;;
-    start-loaded-exam)
-        execute_startexam
-        ;;
-    start-new-exam)
-        execute_startnewexam "$cmd_arg1" "$cmd_arg2"
-        ;;
-    get-status)
-        execute_getstats
-        ;;
     get-exam)
         execute_getexam
         ;;
     get-passphrase)
         execute_getpassphrase
         ;;
+    get-status)
+        execute_getstats
+        ;;
+    ping)
+        execute_ping
+        ;;
     shutdown-server)
         debug_output 'Shutdown server'
         shutdown now
+        ;;
+    start-loaded-exam)
+        execute_startexam
+        ;;
+    start-new-exam)
+        execute_startnewexam "$cmd_arg1" "$cmd_arg2"
         ;;
     store-exam-results)
         execute_store_exam_results
