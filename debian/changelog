@@ -1,3 +1,7 @@
+abitti-ktpapi (0.1.6) stable; urgency=medium
+
+  * Filter personal data from status.
+
 abitti-ktpapi (0.1.5) stable; urgency=medium
 
   * Add "reset-exam".
