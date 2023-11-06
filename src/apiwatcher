@@ -230,7 +230,9 @@ get_script_info() {
 }
 
 get_status() {
-    output_stats=$(curl -s http://localhost/stats)
+    output_stats=$(
+        curl -s http://localhost/stats \
+        | jq -c 'del(.status .students[] .firstNames, .status .students[] .lastName, .status .students[] .studentBd)')
 }
 
 get_loadedexams() {

@@ -7,7 +7,7 @@ Homepage: https://github.com/opinsys/ktpapi
 
 Package: abitti-ktpapi
 Architecture: amd64
-Depends: curl
+Depends: curl, jq
 Description: Helper tool for Abitti exam server automation
  This package can be installed into Abitti examination server.
  It sets up necessary services for controlling the exam server
