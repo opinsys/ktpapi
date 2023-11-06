@@ -2,6 +2,8 @@ abitti-ktpapi (0.1.6) stable; urgency=medium
 
   * Filter personal data from status.
 
+ -- Puavo Org <dev@opinsys.fi>  Mon, 06 Nov 2023 12:40:38 +0200
+
 abitti-ktpapi (0.1.5) stable; urgency=medium
 
   * Add "reset-exam".
